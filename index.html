@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>কমার্স ম্যাথ ও ফর্মুলা গাইড</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: #f0f4f8; 
+            margin: 0; 
+            padding: 15px; 
+            color: #333;
+        }
+        .container { 
+            background: white; 
+            max-width: 420px; 
+            margin: 20px auto; 
+            padding: 20px; 
+            border-radius: 20px; 
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1); 
+        }
+        h1 { color: #1e3a8a; font-size: 22px; text-align: center; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #64748b; font-size: 14px; margin-bottom: 20px; }
+        
+        .section-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        h3 { color: #0284c7; font-size: 16px; margin-top: 0; }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 6px 0 12px 0;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover { background: #1d4ed8; }
+        .btn-hint {
+            background: #f59e0b;
+            margin-top: 8px;
+        }
+        .btn-hint:hover { background: #d97706; }
+        
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 15px;
+            text-align: center;
+        }
+        .solution-box {
+            display: none;
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            border-left: 4px solid #f59e0b;
+            padding: 12px;
+            margin-top: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #78350f;
+            text-align: left;
+            line-height: 1.6;
+        }
+        .formula-list {
+            font-size: 14px;
+            color: #334155;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>💼 Commerce Math Helper</h1>
+        <div class="subtitle">হিসাববিজ্ঞান ও বিজনেস ম্যাথ সমাধান</div>
+
+        <!-- ১. প্র্যাকটিস ও চ্যালেঞ্জ জোন -->
+        <div class="section-box" style="border: 2px solid #bae6fd; background: #f0fdf4;">
+            <h3 style="color: #15803d;">🧠 প্র্যাকটিস ও চ্যালেঞ্জ জোন</h3>
+            <p id="challenge-question" style="font-weight: bold; color: #1e3a8a; font-size: 15px;">প্রশ্ন লোড হচ্ছে...</p>
+            
+            <input type="number" id="user-challenge-answer" placeholder="তোমার উত্তর এখানে লিখো">
+            <button onclick="checkChallengeAnswer()">উত্তর যাচাই করো</button>
+            <button class="btn-hint" onclick="toggleSolution()">💡 সমাধান দেখে নাও</button>
+            
+            <div class="result" id="challenge-result"></div>
+            <div class="solution-box" id="solution-box"></div>
+            <button onclick="loadNewChallenge()" style="background: #10b981; margin-top: 10px; font-size: 14px; padding: 8px;">🔄 নতুন প্রশ্ন</button>
+        </div>
+
+        <!-- ২. বইয়ের অংক সমাধান কর্নার (নতুন আপডেটসহ) -->
+        <div class="section-box" style="border: 2px solid #fed7aa; background: #fffaf0;">
+            <h3 style="color: #c2410c;">📖 বইয়ের অংক সমাধান কর্নার</h3>
+            <p style="font-size: 13px; color: #475569; margin-top: -5px;">তোমার বইয়ের সরল সুদের অংকের মানগুলো নিচে বসাও:</p>
+            
+            <label style="font-size: 13px; font-weight: bold;">আসল বা মূলধন (P):</label>
+            <input type="number" id="book-p" placeholder="যেমন: ৫০০০">
+            
+            <label style="font-size: 13px; font-weight: bold;">সুদের হার % (R):</label>
+            <input type="number" id="book-r" placeholder="যেমন: ৫">
+            
+            <label style="font-size: 13px; font-weight: bold;">সময় বছর (N):</label>
+            <input type="number" id="book-n" placeholder="যেমন: ৩">
+            
+            <button onclick="solveBookMath()" style="background: #ea580c;">অংকটি সহজভাবে বুঝে নাও</button>
+            
+            <div class="result" id="book-result" style="color: #c2410c;"></div>
+            <div class="solution-box" id="book-solution-box"></div>
+        </div>
+
+        <!-- ৩. সাধারণ ক্যালকুলেটর -->
+        <div class="section-box">
+            <h3>📈 সরল সুদ ক্যালকুলেটর</h3>
+            <label>আসল বা মূলধন (P):</label>
+            <input type="number" id="principal" placeholder="যেমন: ১০০০০">
+            
+            <label>সুদের হার % (R):</label>
+            <input type="number" id="rate" placeholder="যেমন: ৫">
+            
+            <label>সময় বছর (N):</label>
+            <input type="number" id="time" placeholder="যেমন: ২">
+            
+            <button onclick="calculateInterest()">হিসাব করো</button>
+            <div class="result" id="interestResult" style="color: #16a34a;"></div>
+        </div>
+
+        <!-- ৪. জরুরি সূত্রাবলি -->
+        <div class="section-box">
+            <h3>📚 জরুরি সূত্রাবলি</h3>
+            <div class="formula-list">
+                <p>🔹 <b>সরল সুদ (I):</b> (P × R × N) / 100</p>
+                <p>🔹 <b>চক্রবৃদ্ধি মূলধন (C):</b> P(1 + r/100)ⁿ</p>
+                <p>🔹 <b>লাভ (Profit):</b> বিক্রয়মূল্য - ক্রয়মূল্য</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // চ্যালেঞ্জ জোন লজিক
+        let currentP, currentR, currentN, currentInterest;
+
+        function loadNewChallenge() {
+            currentP = (Math.floor(Math.random() * 8) + 2) * 1000; 
+            currentR = Math.floor(Math.random() * 8) + 2;  
+            currentN = Math.floor(Math.random() * 4) + 1;  
+
+            currentInterest = (currentP * currentR * currentN) / 100;
+
+            document.getElementById('challenge-question').innerText = 
+                `৳${currentP} টাকার ${currentN} বছরের ${currentR}% হারে সরল সুদ কত হবে?`;
+            
+            document.getElementById('user-challenge-answer').value = '';
+            document.getElementById('challenge-result').innerText = '';
+            document.getElementById('solution-box').style.display = 'none';
+        }
+
+        function checkChallengeAnswer() {
+            let userAns = parseFloat(document.getElementById('user-challenge-answer').value);
+            let resDiv = document.getElementById('challenge-result');
+
+            if (isNaN(userAns)) {
+                resDiv.style.color = "orange";
+                resDiv.innerText = "⚠️ আগে তোমার উত্তরটি লিখো!";
+                return;
+            }
+
+            if (userAns === currentInterest) {
+                resDiv.style.color = "green";
+                resDiv.innerText = "🎉 বাহ! চমৎকার, উত্তর সঠিক হয়েছে!";
+            } else {
+                resDiv.style.color = "red";
+                resDiv.innerText = "❌ ভুল হয়েছে! চাইলে নিচের 'সমাধান দেখে নাও' বাটনটি ক্লিক করো।";
+            }
+        }
+
+        function toggleSolution() {
+            let solBox = document.getElementById('solution-box');
+            if (solBox.style.display === 'block') {
+                solBox.style.display = 'none';
+            } else {
+                solBox.innerHTML = `<b>পদ্ধতি ও সমাধান:</b><br>` +
+                    `সূত্র: সরল সুদ (I) = (P × R × N) / 100<br>` +
+                    `• আসল (P) = ৳${currentP}<br>` +
+                    `• সুদের হার (R) = ${currentR}%<br>` +
+                    `• সময় (N) = ${currentN} বছর<br>` +
+                    `• হিসাব: (${currentP} × ${currentR} × ${currentN}) / 100<br>` +
+                    `<b>সঠিক উত্তর: ৳${currentInterest}</b>`;
+                solBox.style.display = 'block';
+            }
+        }
+
+        // বইয়ের অংক একদম সহজভাবে ধাপে ধাপে বুঝিয়ে দেওয়ার ফাংশন
+        function solveBookMath() {
+            let p = parseFloat(document.getElementById('book-p').value);
+            let r = parseFloat(document.getElementById('book-r').value);
+            let n = parseFloat(document.getElementById('book-n').value);
+            let resDiv = document.getElementById('book-result');
+            let solBox = document.getElementById('book-solution-box');
+
+            if (isNaN(p) || isNaN(r) || isNaN(n)) {
+                resDiv.style.color = "red";
+                resDiv.innerText = "⚠️ বইয়ের অংকের সব মান সঠিকভাবে লিখুন!";
+                solBox.style.display = 'none';
+                return;
+            }
+
+            let mult = p * r * n;
+            let interest = mult / 100;
+            let total = p + interest;
+
+            resDiv.style.color = "c2410c";
+            resDiv.innerText = `✅ নিচে অংকটির সহজ ব্যাখ্যা ও সমাধান দেওয়া হলো:`;
+
+            solBox.innerHTML = `
+                <b>📖 খুব সহজে বুঝে নাও (ধাপে ধাপে):</b><br><br>
+                <b>ধাপ ১: কি কি মান দেওয়া আছে?</b><br>
+                • আসল বা মূলধন (P) = ৳${p}<br>
+                • সুদের হার (R) = ${r}%<br>
+                • সময় (N) = ${n} বছর<br><br>
+                <b>ধাপ ২: কোন সূত্র ব্যবহার করব?</b><br>
+                আমরা জানি, সরল সুদ (I) = (P × R × N) / 100<br><br>
+                <b>ধাপ ৩: মানগুলো বসিয়ে হিসাব করি</b><br>
+                • ওপরের সংখ্যাগুলো গুণ করো: ${p} × ${r} × ${n} = ${mult}<br>
+                • এবার তাকে ১০০ দিয়ে ভাগ করো: ${mult} ÷ 100 = <b>৳${interest}</b> (এটি হলো সরল সুদ বা I)<br><br>
+                <b>ধাপ ৪: মোট কত টাকা হবে?</b><br>
+                মোট টাকা = আসল + সুদ<br>
+                = ${p} + ${interest} = <b>৳${total}</b>
+            `;
+            solBox.style.display = 'block';
+        }
+
+        // সাধারণ ক্যালকুলেটর
+        function calculateInterest() {
+            let p = parseFloat(document.getElementById('principal').value);
+            let r = parseFloat(document.getElementById('rate').value);
+            let n = parseFloat(document.getElementById('time').value);
+            let resDiv = document.getElementById('interestResult');
+
+            if (isNaN(p) || isNaN(r) || isNaN(n)) {
+                resDiv.style.color = "red";
+                resDiv.innerText = "⚠️ সব ঘরে সঠিক সংখ্যা লিখুন!";
+                return;
+            }
+
+            let interest = (p * r * n) / 100;
+            let totalAmount = p + interest;
+            resDiv.style.color = "green";
+            resDiv.innerText = `সুদ: ৳${interest} | মোট টাকা: ৳${totalAmount}`;
+        }
+
+        window.onload = loadNewChallenge;
+    </script>
+</body>
+</html>
